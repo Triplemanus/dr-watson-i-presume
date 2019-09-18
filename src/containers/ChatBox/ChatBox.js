@@ -10,7 +10,7 @@ import "./ChatBox.css"
 export class ChatBox extends Component {
   constructor() {
     super();
-    this.state = { message: 'test' }
+    this.state = { message: '' }
     this.convo = createRef();
   }
 
@@ -46,6 +46,7 @@ export class ChatBox extends Component {
     console.log('message value from state: ', {message});
     console.log('messages value from props: ', {messages});
     const survey = messages.map((message, i) => {
+      console.log('message.message is: ', {message});
       return <Message
         key={`message${i}`}
         message={message.message}
