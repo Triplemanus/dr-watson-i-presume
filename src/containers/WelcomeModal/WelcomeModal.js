@@ -12,24 +12,36 @@ export class WelcomeModal extends Component {
       firstName: '',
       lastName: '',
       feeling: '',
-      error: '',
+      submit: '',
+      error: ' ',
     }
   }
 
   handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value, error: '' });
+    this.setState({ [e.target.name]: e.target.value });
+    console.log('state values 1: ', this.state.firstName, this.state.lastName, this.state.feeling);
   }
 
   handleSubmit = e => {
-    const { firstName, lastName, feeling } = this.state;
+    const { firstName, lastName, feeling, error } = this.state;
     e.preventDefault();
-    this.props.createUser({
-      id: Date.now(),
-      firstName,
-      lastName,
-      feeling,
-    });
-    this.connectToChatBot();
+    console.log('state values 2: ', this.state.firstName, this.state.lastName, this.state.feeling);
+    if(!this.state.firstName && !this.state.lastName && !this.state.feeling) {
+      this.setState({submit: true});
+      this.setState({error: "Please fille out all fields before checking in."})
+    } else {
+      console.log('No error');
+      this.setState({ error: ''});
+    }
+    if(!error) 
+    { this.props.createUser({
+        id: Date.now(),
+        firstName,
+        lastName,
+        feeling,
+      });
+      this.connectToChatBot();
+    }
   }
 
   connectToChatBot = async () => {
@@ -68,7 +80,8 @@ export class WelcomeModal extends Component {
           <option value="stressed">Stressed</option>
           <option value="frustrated">Frustrated</option>
         </select>
-        <button onClick={this.handleSubmit}>
+        <button id="check-in-button" onClick={this.handleSubmit} >
+          {/* disabled={!this.state.submit}> */}
           Take 5 minutes to check in!
         </button>
       </form>
